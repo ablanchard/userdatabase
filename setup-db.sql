@@ -13,18 +13,18 @@ CREATE  TABLE user (
 
   `id` INT NOT NULL AUTO_INCREMENT ,
 
-  `login` VARCHAR(255) NOT NULL ,
+  `first_name` VARCHAR(255) NOT NULL ,
 
-  `password` VARCHAR(45) NULL ,
+  `last_name` VARCHAR(255) NULL ,
 
   PRIMARY KEY (`id`) );
 
 #-----------------------------------
 #DEFAULT ENTRIES
 #-----------------------------------
-INSERT INTO user (login, password) VALUES ('root', 'toor');
-INSERT INTO user (login, password) VALUES ('user1', 'qwerty');
-INSERT INTO user (login, password) VALUES ('user2', '123456');
+INSERT INTO user (first_name, last_name) VALUES ('john', 'doe');
+INSERT INTO user (first_name, last_name) VALUES ('alex', 'blanchard');
+INSERT INTO user (first_name, last_name) VALUES ('loic', 'ortola');
 
 
 #-----------------------------------
