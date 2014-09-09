@@ -2,6 +2,7 @@ package fr.epf.userdatabase.controller;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,34 +22,14 @@ public class DashboardController extends HttpServlet {
 		//Get a service
 		UserDBService userDBService = new UserDBService();
 		
-		//Display users
-		StringBuilder html = new StringBuilder("<html>");
-		html.append("<body>")
-			.append("<table>")
-			.append("<th>")
-			.append("<td>id</td>")
-			.append("<td>First name</td>")
-			.append("<td>Last name</td>")
-			.append("</th>");
+		//Add the user list
+		req.setAttribute("users", userDBService.getAll());
 		
-		for(User user : userDBService.getAll()){
-			html.append("<tr>")
-			.append("<td>")
-			.append(user.getId())
-			.append("</td>")
-			.append("<td>")
-			.append(user.getFirstName())
-			.append("</td>").append("<td>")
-			.append(user.getLastName())
-			.append("</td>")
-			.append("</tr>");
-			
-		}
-		
-		html.append("</table>")
-		.append("</body>")
-		.append("</html>");
-		resp.getWriter().append(html.toString());
+		//Get the dispatcher JSP
+		RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/views/dashboard.jsp");
+
+		//Forward the request
+		dispatcher.forward(req, resp);
 		
 	}
 	
