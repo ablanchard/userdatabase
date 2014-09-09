@@ -23,16 +23,18 @@ public class UserDAO {
 	
 	public List<User> getAll(){
 		Connection connection = null;
+		Statement statement = null;
+		ResultSet resultSet = null;
 		try {
 
 			//Step 1 Get a connection
 			connection = DriverManager.getConnection(URI,USER,PASSWORD);
 			
 			//Step 2 Create a Statement (query)
-			Statement statement = connection.createStatement();
+			statement = connection.createStatement();
 			
 			//Step 3 Execute and Get Results
-			ResultSet resultSet = statement.executeQuery("SELECT * FROM user");
+			resultSet = statement.executeQuery("SELECT * FROM user");
 			
 			List<User> users = new ArrayList<>();
 			
@@ -45,10 +47,10 @@ public class UserDAO {
 				users.add(user);
 			}
 			
-			//Step 4 Close Statement
+			
 			statement.close();
 			
-			//Step 5 Close connection
+			
 			connection.close();
 			
 			return users;
@@ -56,10 +58,44 @@ public class UserDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			closeObjects(connection, statement, resultSet);
 		}
 		
 		return null;
 		
+	}
+
+	private void closeObjects(Connection connection, Statement statement,
+			ResultSet resultSet) {
+		if(resultSet != null){
+			try {
+				resultSet.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		//Step 4 Close Statement
+		if(statement != null){
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		//Step 5 Close connection
+		if(connection != null){
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 }
