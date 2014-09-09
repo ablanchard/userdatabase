@@ -16,6 +16,14 @@ public class UserDAO {
 	private static final String USER = "jee-training";
 	private static final String PASSWORD = "password";
 	
+	public UserDAO(){
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	public User get(Long id){
 		return null;
