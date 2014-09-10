@@ -26,7 +26,7 @@ public class UserDBService {
 	private UserDAO userDAO = UserDAO.getInstance();
 	
 	public User get(Long id){
-		return userDAO.get(id);
+		return null; //userDAO.get(id);
 	}
 	
 	public List<User> getAll(){

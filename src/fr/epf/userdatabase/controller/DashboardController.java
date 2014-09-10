@@ -28,10 +28,10 @@ public class DashboardController extends HttpServlet {
 		List<User> users = new ArrayList<>();
 		
 		//GEt user with id 1
-		users.add(userDBService.get(1l));
+		//users.add(userDBService.get(1l));
 		
 		//Add the user list
-		req.setAttribute("users", users);
+		req.setAttribute("users", userDBService.getAll());
 		
 		//
 		

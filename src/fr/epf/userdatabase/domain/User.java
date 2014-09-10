@@ -1,13 +1,29 @@
 package fr.epf.userdatabase.domain;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Describe a user
  * @author alex
  *
  */
+
+@Entity
+@Table(name="user")
 public class User {
 	
+	@Id
+	@GeneratedValue
 	private Long id;
+
+	@Column(name="first_name")
 	private String firstName ;
+
+	@Column(name="last_name")
 	private String lastName;
 	
 	public User(){
