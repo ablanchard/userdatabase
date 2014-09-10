@@ -42,6 +42,41 @@ public class DashboardController extends HttpServlet {
 		dispatcher.forward(req, resp);
 		
 	}
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		
+		//Get user form request
+		User user = populateUser(req);
+		
+
+		System.out.println(user);
+		
+		
+		UserDBService service = UserDBService.getInstance();
+		
+		//Persist the user
+		service.create(user);
+		
+		doGet(req,resp);
+		
+		
+	}
+
+	private User populateUser(HttpServletRequest req) {
+		//GEt form data
+		String firstName = (String)req.getParameter("firstName");
+		String lastName = (String)req.getParameter("lastName");
+		
+		User user = User.builder()
+				.firstName(firstName)
+				.lastName(lastName)
+				.build();
+		return user;
+	}
+	
+	
 	
 	
 

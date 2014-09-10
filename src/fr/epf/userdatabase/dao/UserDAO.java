@@ -28,53 +28,30 @@ public enum UserDAO {
 		emf = Persistence.createEntityManagerFactory("userdatabase-PU");	
 		
 	}
-	/*
-	public User get(Long id){
-		Connection connection = null;
-		PreparedStatement statement = null;
-		ResultSet resultSet = null;
-		try {
-
+	
+	
+	public void create(User user){
+		EntityManager em = null;
+		try{
+			em = getEntityManager();
 			
-			//Step 1 Get a connection
-			connection = getConnection();
+			//Open a transaction because it's a write operation
+			em.getTransaction().begin();
 			
-			//Step 2 Create a Statement (query)
-			statement = connection.prepareStatement("SELECT * FROM user WHERE id=?");
-			statement.setLong(1, id);
+			//Save the user
+			em.persist(user);
 			
-			//Step 3 Execute and Get Results
-			resultSet = statement.executeQuery();
+			//Really save in DB
+			em.getTransaction().commit();
 			
-			User user = null ;
-			
-			
-			if(resultSet.next()){
-				user = User.builder()
-						.id(resultSet.getLong("id"))
-						.firstName(resultSet.getString("first_name"))
-						.lastName(resultSet.getString("last_name"))
-						.build();
+		} finally{
+			if(em != null){
+				em.close();
 			}
-			
-			
-			statement.close();
-			
-			
-			connection.close();
-			
-			return user;
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			closeObjects(connection, statement, resultSet);
 		}
-		
-		return null;
 	}
-*/
+	
+	
 	private EntityManager getEntityManager(){
 		return emf.createEntityManager();
 	}
@@ -82,45 +59,16 @@ public enum UserDAO {
 	public List<User> getAll(){
 		EntityManager em = null;
 		try {
+			//Get Connection
 			em = getEntityManager();
+			
+			//Fetch the results
 			return em.createQuery("SELECT u FROM User u").getResultList();
 		} finally {
+			//Close the connection
 			if(em != null){
 				em.close();	
 			}
 		}
 	}
-
-	private void closeObjects(Connection connection, Statement statement,
-			ResultSet resultSet) {
-		if(resultSet != null){
-			try {
-				resultSet.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		//Step 4 Close Statement
-		if(statement != null){
-			try {
-				statement.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		//Step 5 Close connection
-		if(connection != null){
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-
 }

@@ -13,18 +13,26 @@
 <div class="container">
 <div class="row">
 <div class="col-md-12">
-<table class="table table-striped">
-<th>id</th>
-<th>firstName</th>
-<th>lastName</th>
-<c:forEach items="${users}" var="user">
-<tr>
-	<td>${user.id}</td>
-	<td>${user.firstName}</td>
-	<td>${user.lastName}</td>
-</tr>
-</c:forEach>
-</table>
+
+<form method="POST" action="dashboard">
+	<table class="table table-striped">
+	<th>id</th>
+	<th>firstName</th>
+	<th>lastName</th>
+	<c:forEach items="${users}" var="user">
+	<tr>
+		<td>${user.id}</td>
+		<td>${user.firstName}</td>
+		<td>${user.lastName}</td>
+	</tr>
+	</c:forEach>
+		<tr>
+			<td><input type="submit" value="+"/></td>
+			<td><input type="text" name="firstName" /></td>
+			<td><input type="text" name="lastName" /></td>
+		</tr>
+	</table>
+</form>
 </div>
 </div>
 </div>

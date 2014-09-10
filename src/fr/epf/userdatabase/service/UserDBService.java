@@ -23,12 +23,12 @@ public class UserDBService {
 		
 	}
 	
-	private UserDAO userDAO = UserDAO.getInstance();
-	
-	public User get(Long id){
-		return null; //userDAO.get(id);
+	public void create(User user){
+		userDAO.create(user);
 	}
 	
+	private UserDAO userDAO = UserDAO.getInstance();
+		
 	public List<User> getAll(){
 		return userDAO.getAll();
 	}
