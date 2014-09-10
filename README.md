@@ -35,6 +35,8 @@
 6. Utilisation des tags JSTL au lieu des scriptlets dans les fichiers .jsp
 7. Ajout de bootstrap pour un meilleur look
 8. Réécriture des DAOs, Services et controleurs pour les rendre singletons
-9. Ajout de slf4j pour de meilleurs logs
+9. Utilisation d'une DataSource
 10. Utilisation de Hibernate au lieu de mapper à la main les objets
-11. Ajout d'une fonctionalité d'ajout d'un utilisateur
+11. Utilisation des transactions
+12. Ajout de slf4j pour de meilleurs logs
+13. Ajout d'une fonctionalité d'ajout d'un utilisateur
