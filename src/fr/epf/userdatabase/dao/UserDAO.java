@@ -9,7 +9,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 import fr.epf.userdatabase.domain.User;
 
@@ -17,17 +21,20 @@ public enum UserDAO {
 	
 	INSTANCE;
 	
-	Properties properties ;
+	DataSource ds;
 	
 	public static UserDAO getInstance(){
 		return INSTANCE;
 	}
 	
 	private UserDAO(){
-		properties = new Properties();
+		Context ctx;
 		try {
-			properties.load(UserDAO.class.getClassLoader().getResourceAsStream("dbconf.properties"));
-		} catch (IOException e) {
+			ctx = new InitialContext();
+			//Lookup of the datasource named jdbc/jee-training in the JNDI directory
+			ds = (DataSource)ctx.lookup("java:comp/env/jdbc/userdatabase-ds");
+			
+		} catch (NamingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -89,7 +96,7 @@ public enum UserDAO {
 	private Connection getConnection() {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection(properties.getProperty("dburl"),properties.getProperty("dbuser"),properties.getProperty("dbpassword"));
+			connection = ds.getConnection();
 		} catch (SQLException e) {
 			
 			System.err.println("Could not get a connection");
