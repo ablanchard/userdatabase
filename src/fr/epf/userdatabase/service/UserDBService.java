@@ -7,7 +7,23 @@ import fr.epf.userdatabase.domain.User;
 
 public class UserDBService {
 	
-	private UserDAO userDAO = new UserDAO();
+	private static UserDBService instance = null ;
+	
+	//static to be call without an instance
+	public static UserDBService getInstance(){
+		
+		if(instance == null){
+			//If there is no instance yet just created it.
+			instance = new UserDBService();
+		} 
+		return instance;
+	}
+	
+	private UserDBService(){
+		
+	}
+	
+	private UserDAO userDAO = UserDAO.getInstance();
 	
 	public User get(Long id){
 		return userDAO.get(id);

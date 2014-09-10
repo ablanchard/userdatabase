@@ -1,23 +1,38 @@
 package fr.epf.userdatabase.dao;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import fr.epf.userdatabase.domain.User;
 
-public class UserDAO {
+public enum UserDAO {
 	
-	private static final String URI = "jdbc:mysql://127.0.0.1:3306/jee-training";
-	private static final String USER = "jee-training";
-	private static final String PASSWORD = "password";
+	INSTANCE;
 	
-	public UserDAO(){
+	Properties properties ;
+	
+	public static UserDAO getInstance(){
+		return INSTANCE;
+	}
+	
+	private UserDAO(){
+		properties = new Properties();
 		try {
+			properties.load(UserDAO.class.getClassLoader().getResourceAsStream("dbconf.properties"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try { 
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -26,7 +41,60 @@ public class UserDAO {
 	}
 	
 	public User get(Long id){
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		try {
+
+			
+			//Step 1 Get a connection
+			connection = getConnection();
+			
+			//Step 2 Create a Statement (query)
+			statement = connection.prepareStatement("SELECT * FROM user WHERE id=?");
+			statement.setLong(1, id);
+			
+			//Step 3 Execute and Get Results
+			resultSet = statement.executeQuery();
+			
+			User user = null ;
+			
+			
+			if(resultSet.next()){
+				user = User.builder()
+						.id(resultSet.getLong("id"))
+						.firstName(resultSet.getString("first_name"))
+						.lastName(resultSet.getString("last_name"))
+						.build();
+			}
+			
+			
+			statement.close();
+			
+			
+			connection.close();
+			
+			return user;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeObjects(connection, statement, resultSet);
+		}
+		
 		return null;
+	}
+
+	private Connection getConnection() {
+		Connection connection = null;
+		try {
+			connection = DriverManager.getConnection(properties.getProperty("dburl"),properties.getProperty("dbuser"),properties.getProperty("dbpassword"));
+		} catch (SQLException e) {
+			
+			System.err.println("Could not get a connection");
+		}
+		return connection;
 	}
 	
 	public List<User> getAll(){
@@ -35,8 +103,8 @@ public class UserDAO {
 		ResultSet resultSet = null;
 		try {
 
-			//Step 1 Get a connection
-			connection = DriverManager.getConnection(URI,USER,PASSWORD);
+			
+			connection = getConnection();
 			
 			//Step 2 Create a Statement (query)
 			statement = connection.createStatement();
