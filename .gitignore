@@ -3,3 +3,9 @@
 .settings/
 build/
 
+target/
+
+*.iml
+
+.idea
+

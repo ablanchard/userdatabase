@@ -11,7 +11,7 @@ USE `jee-training`;
 #-----------------------------------
 CREATE  TABLE user (
 
-  `id` INT NOT NULL AUTO_INCREMENT ,
+  `id` BIGINT NOT NULL AUTO_INCREMENT ,
 
   `first_name` VARCHAR(255) NOT NULL ,
 
