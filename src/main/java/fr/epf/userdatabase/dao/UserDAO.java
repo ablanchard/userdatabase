@@ -6,23 +6,16 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import org.springframework.stereotype.Repository;
+
 import fr.epf.userdatabase.domain.User;
 
-public enum UserDAO {
+@Repository
+public class UserDAO {
 	
-	INSTANCE;
-	
-	EntityManagerFactory emf;
-	
-	public static UserDAO getInstance(){
-		return INSTANCE;
-	}
-	
-	private UserDAO(){
-		emf = Persistence.createEntityManagerFactory("userdatabase-PU");	
+
+	EntityManagerFactory emf = Persistence.createEntityManagerFactory("userdatabase-PU");
 		
-	}
-	
 	
 	public void create(User user){
 		EntityManager em = null;

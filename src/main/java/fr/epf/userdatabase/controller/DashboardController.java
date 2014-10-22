@@ -6,24 +6,28 @@ import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 import fr.epf.userdatabase.domain.User;
 import fr.epf.userdatabase.service.UserDBService;
 
-@WebServlet("/dashboard")
-public class DashboardController extends HttpServlet {
+@Controller
+@RequestMapping("/dashboard")
+public class DashboardController {
 
-	@Override
+	@Autowired
+	private UserDBService userDBService;
+	
+	@RequestMapping(method = RequestMethod.GET)
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//Get a service
-		UserDBService userDBService = UserDBService.getInstance();
-		
 		
 		List<User> users = new ArrayList<>();
 		
@@ -43,7 +47,7 @@ public class DashboardController extends HttpServlet {
 		
 	}
 
-	@Override
+	@RequestMapping(method = RequestMethod.POST)
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
@@ -53,11 +57,9 @@ public class DashboardController extends HttpServlet {
 
 		System.out.println(user);
 		
-		
-		UserDBService service = UserDBService.getInstance();
-		
+				
 		//Persist the user
-		service.create(user);
+		userDBService.create(user);
 		
 		doGet(req,resp);
 		
